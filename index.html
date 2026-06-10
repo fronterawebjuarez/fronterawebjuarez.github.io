@@ -41,6 +41,7 @@
 /* ===== RESET & BASE ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; overflow-x: hidden; }
+html, body { overflow-x: hidden; overflow-y: auto; }
 body {
   font-family: var(--font-body);
   background: var(--navy-deep);
@@ -794,6 +795,11 @@ footer {
   background: var(--navy-deep);
   border-top: 1px solid var(--border);
   padding: 3rem 2rem 1.5rem;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
 }
 
 @media (max-width: 768px) {
@@ -1397,7 +1403,7 @@ body {
 @media (max-width: 768px) { .hero-title { font-size: clamp(3rem, 12vw, 5rem); } }
 
 /* 9. NOSOTROS */
-#nosotros { overflow: hidden; }
+#nosotros { overflow: hidden; position: relative; }
 #nosotros::after {
   content: '';
   position: absolute;
@@ -1601,7 +1607,7 @@ body {
 }
 
 /* 12. PROCESO */
-#proceso { overflow: hidden; }
+#proceso { overflow: hidden; position: relative; }
 #proceso::after {
   content: '';
   position: absolute;
@@ -1639,7 +1645,7 @@ body {
 .proceso-grid .reveal:nth-child(5){transition-delay:.37s}
 
 /* 13. CONTACTO */
-#contacto { overflow: hidden; }
+#contacto { overflow: hidden; position: relative; }
 #contacto::before {
   content: '';
   position: absolute;
@@ -1715,7 +1721,7 @@ body {
 .compare-table tbody tr:hover { background: rgba(255,104,48,0.038); }
 
 /* 15. FOOTER */
-footer { position: relative; border-top: 1px solid rgba(255,255,255,0.045); }
+footer { position: relative; z-index: 1; overflow: hidden; border-top: 1px solid rgba(255,255,255,0.045); }
 footer::before {
   content: '';
   position: absolute;
@@ -2032,6 +2038,7 @@ footer::before {
 .reveal-left.visible { filter: blur(0); }
 .reveal-right { filter: blur(4px); }
 .reveal-right.visible { filter: blur(0); }
+body::after { display: none; }
 </style>
 
 <!-- JSON-LD: LocalBusiness structured data -->
@@ -2067,34 +2074,7 @@ footer::before {
       "opens": "10:00",
       "closes": "14:00"
     }
-  ],
-  "hasOfferCatalog": {
-    "@type": "OfferCatalog",
-    "name": "Planes de Diseño Web",
-    "itemListElement": [
-      {
-        "@type": "Offer",
-        "name": "Plan Esencial",
-        "description": "Sitio web básico con scroll completo, galería de 6 fotos y WhatsApp",
-        "price": "6000",
-        "priceCurrency": "MXN"
-      },
-      {
-        "@type": "Offer",
-        "name": "Plan Profesional",
-        "description": "Sitio web profesional con animaciones, testimonios y formulario de citas",
-        "price": "12000",
-        "priceCurrency": "MXN"
-      },
-      {
-        "@type": "Offer",
-        "name": "Plan Premium",
-        "description": "Multipágina SPA con chatbot, SEO técnico avanzado y Google Analytics",
-        "price": "24000",
-        "priceCurrency": "MXN"
-      }
-    ]
-  }
+  ]
 }
 </script>
 </head>
@@ -2113,9 +2093,8 @@ footer::before {
     <img src="Frontera_Web_Logo.png" alt="Frontera Web" id="nav-logo-img">
   </div>
   <ul class="nav-links">
-    <li><a href="#nosotros">Nosotros</a></li>
-    <li><a href="#servicios">Servicios</a></li>
-    <li><a href="#planes">Planes</a></li>
+    <li><a href="#nosotros">Sobre mí</a></li>
+    <li><a href="#servicios">Clientes</a></li>
     <li><a href="#proceso">Proceso</a></li>
     <li><a href="#contacto">Contacto</a></li>
     <li><a href="https://wa.me/526566094895" class="nav-cta" target="_blank"><i class="fab fa-whatsapp"></i> Cotizar</a></li>
@@ -2128,9 +2107,8 @@ footer::before {
 <!-- MOBILE MENU -->
 <div id="mobile-menu">
   <ul>
-    <li><a href="#nosotros" onclick="toggleMenu()">Nosotros</a></li>
-    <li><a href="#servicios" onclick="toggleMenu()">Servicios</a></li>
-    <li><a href="#planes" onclick="toggleMenu()">Planes</a></li>
+    <li><a href="#nosotros" onclick="toggleMenu()">Sobre mí</a></li>
+    <li><a href="#servicios" onclick="toggleMenu()">Clientes</a></li>
     <li><a href="#proceso" onclick="toggleMenu()">Proceso</a></li>
     <li><a href="#contacto" onclick="toggleMenu()">Contacto</a></li>
     <li><a href="https://wa.me/526566094895" target="_blank" style="color:var(--orange)"><i class="fab fa-whatsapp"></i> Cotizar por WhatsApp</a></li>
@@ -2145,7 +2123,7 @@ footer::before {
   <canvas id="hero-canvas"></canvas>
   <div class="hero-bg-gradient"></div>
   <div class="hero-content">
-    <div class="hero-badge">Ciudad Juárez · El Paso</div>
+    <div class="hero-badge">Freelancer · Ciudad Juárez · Sin intermediarios</div>
     <h1 class="hero-title">
       <span class="hero-est-line">EST. 2026 — CIUDAD JUÁREZ</span>
       Frontera<span class="line2">Web</span>
@@ -2153,11 +2131,8 @@ footer::before {
     <div class="typewriter-wrap">
       Para <span id="typewriter"></span><span class="cursor-blink">|</span>
     </div>
-    <p class="hero-desc">
-      Diseño web a la medida con SEO incluido. Tratas directamente con el desarrollador, sin intermediarios ni sorpresas.
-    </p>
+    <p class="hero-desc">Las agencias te cobran caro y le pasan tu proyecto a un junior. Yo lo hago todo: diseño, código y lanzamiento en días, no semanas.<br><strong style="color:var(--orange-light)">Pagas solo si te gusta el resultado.</strong></p>
     <div class="hero-buttons">
-      <a href="#planes" class="btn-primary"><i class="fas fa-rocket"></i> Ver Planes</a>
       <a href="#contacto" class="btn-outline"><i class="fas fa-comments"></i> Cotizar Gratis</a>
     </div>
   </div>
@@ -2180,34 +2155,53 @@ footer::before {
         </div>
       </div>
       <div class="reveal-right">
-        <span class="section-tag">¿Quiénes somos?</span>
-        <h2 class="section-title">Estudio Web<br>de la Frontera</h2>
-        <p class="section-sub">Frontera Web es un estudio de diseño web en Ciudad Juárez especializado en negocios locales y operaciones binacionales Juárez–El Paso. Cada proyecto lo trabajas directamente con el desarrollador, sin capas de intermediarios.</p>
+        <span class="section-tag">¿Con quién trabajas?</span>
+        <h2 class="section-title">Un Desarrollador.<br>Tú y Yo.</h2>
+        <p class="section-sub">Soy freelancer en Ciudad Juárez. No hay equipo de ventas, no hay project manager, no hay junior asignado. Hablas conmigo desde el primer mensaje hasta que tu sitio está en línea — y eso se nota en el resultado.</p>
         <div class="about-features">
           <div class="feature-item">
-            <div class="feature-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="feature-icon"><i class="fas fa-user-check"></i></div>
             <div class="feature-text">
-              <h4>Somos locales</h4>
-              <p>Conocemos el mercado de Ciudad Juárez y diseñamos para tu audiencia local.</p>
+              <h4>Tratas con quien hace el trabajo</h4>
+              <p>Sin intermediarios. El que contesta tu WhatsApp es el mismo que escribe el código.</p>
             </div>
           </div>
           <div class="feature-item">
             <div class="feature-icon"><i class="fas fa-bolt"></i></div>
             <div class="feature-text">
-              <h4>Entrega rápida</h4>
-              <p>Tu sitio web listo en 7 a 15 días hábiles según el plan elegido.</p>
+              <h4>La tecnología lo permite hoy</h4>
+              <p>Lo que antes tardaba meses ahora se hace en días. Las agencias no te dicen eso porque viven de cobrarte el tiempo.</p>
             </div>
           </div>
           <div class="feature-item">
-            <div class="feature-icon"><i class="fas fa-headset"></i></div>
+            <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
             <div class="feature-text">
-              <h4>Soporte continuo</h4>
-              <p>Mantenimiento mensual con respuesta garantizada en 48 horas.</p>
+              <h4>Riesgo cero para ti</h4>
+              <p>Te muestro el diseño terminado antes de cualquier pago. Si te gusta, seguimos. Si no, quedamos como amigos.</p>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<div style="height:1px;background:linear-gradient(90deg,transparent,rgba(255,104,48,0.18),transparent);"></div>
+
+<!-- BANNER FREELANCER -->
+<section id="banner-freelancer" style="background:linear-gradient(135deg,rgba(255,104,48,0.12) 0%,rgba(255,104,48,0.04) 100%);border-top:1px solid rgba(255,104,48,0.2);border-bottom:1px solid rgba(255,104,48,0.2);padding:3rem 2rem;">
+  <div class="container" style="text-align:center;max-width:780px;">
+    <p style="font-family:var(--font-display);font-size:clamp(1.4rem,3.5vw,2.2rem);color:var(--white);line-height:1.3;text-transform:uppercase;letter-spacing:0.03em;">
+      No pagues un dineral a empresas.<br>
+      <span style="color:var(--orange);">Tu página se hace en días con la tecnología de hoy</span><br>
+      — y no te lo dicen.
+    </p>
+    <p style="color:var(--gray);margin-top:1.2rem;font-size:1rem;line-height:1.7;">
+      Cuéntame qué necesitas. Creo tu sitio. <strong style="color:var(--off-white);">Pagas solo si te gusta.</strong>
+    </p>
+    <a href="https://wa.me/526566094895?text=Hola!%20Vi%20tu%20página%20y%20quiero%20ver%20qué%20puedes%20hacer%20para%20mi%20negocio" target="_blank" class="btn-primary" style="display:inline-flex;margin-top:1.8rem;font-size:1rem;">
+      <i class="fab fa-whatsapp"></i> Contáctame ahora
+    </a>
   </div>
 </section>
 
@@ -2278,154 +2272,44 @@ footer::before {
   </div>
 </section>
 
-<div style="height:1px;background:linear-gradient(90deg,transparent,rgba(255,104,48,0.18),transparent);"></div>
-
-<!-- PLANES -->
-<section id="planes">
-  <div class="container">
-    <div class="text-center reveal">
-      <span class="section-tag">Nuestros Planes</span>
-      <h2 class="section-title">Precios Transparentes</h2>
-      <p class="section-sub" style="max-width: 100%; white-space: nowrap;">Sin sorpresas ni costos ocultos. Elige el plan que mejor se adapte a tu negocio.</p>
-            <p class="section-sub">Todos nuestros precios incluyen IVA.</p>
-    </div>
-    <div class="planes-grid">
-      <!-- ESENCIAL -->
-      <div class="plan-card plan-esencial reveal">
-        <div class="plan-icon"><i class="fas fa-rocket"></i></div>
-        <div class="plan-name">Esencial</div>
-        <div class="plan-desc">Ideal para negocios locales que necesitan presencia digital rápida</div>
-        <div class="plan-price"><span class="plan-currency">$</span>6,000 <small style="font-size:1rem;color:var(--gray)">MXN</small></div>
-        <div class="plan-maintenance">Mantenimiento: <strong style="color:var(--gray-light)">$500/mes</strong></div>
-        <ul class="plan-features">
-          <li><i class="fas fa-check"></i> 1 página con scroll completo</li>
-          <li><i class="fas fa-check"></i> Galería de 6 fotos</li>
-          <li><i class="fas fa-check"></i> Botón flotante de WhatsApp</li>
-          <li><i class="fas fa-check"></i> Google Maps embebido</li>
-          <li><i class="fas fa-check"></i> SEO básico configurado</li>
-          <li><i class="fas fa-check"></i> Hosting y dominio .com incluido 1er año</li>
-          <li class="muted"><i class="fas fa-times"></i> Sección de precios</li>
-          <li class="muted"><i class="fas fa-times"></i> Testimonios</li>
-          <li class="muted"><i class="fas fa-times"></i> Blog / Noticias</li>
-          <li class="muted"><i class="fas fa-times"></i> Formulario de citas</li>
-          <li class="muted"><i class="fas fa-times"></i> Animaciones scroll</li>
-          <li class="muted"><i class="fas fa-times"></i> Modo oscuro</li>
-          <li class="muted"><i class="fas fa-times"></i> Schema markup</li>
-          <li class="muted"><i class="fas fa-times"></i> Google Analytics</li>
-        </ul>
-        <button class="plan-btn" onclick="window.open('https://wa.me/526566094895?text=Hola!%20Me%20interesa%20el%20Plan%20Esencial%20de%20%246%2C000%20MXN','_blank')">Cotizar Plan Esencial</button>
-      </div>
-      <!-- PROFESIONAL -->
-      <div class="plan-card plan-profesional featured reveal">
-        <div class="plan-glow-inner"></div>
-        <div class="plan-badge">Más Popular</div>
-        <div class="plan-icon"><i class="fas fa-chart-line"></i></div>
-        <div class="plan-name">Profesional</div>
-        <div class="plan-desc">Ideal para clínicas, despachos y negocios en crecimiento</div>
-        <div class="plan-price"><span class="plan-currency">$</span>12,000 <small style="font-size:1rem;color:var(--gray)">MXN</small></div>
-        <div class="plan-maintenance">Mantenimiento: <strong style="color:var(--orange)">$700/mes</strong></div>
-        <ul class="plan-features">
-          <li><i class="fas fa-check"></i> 1 página estructurada</li>
-          <li><i class="fas fa-check"></i> Galería amplia de 15 fotos</li>
-          <li><i class="fas fa-check"></i> Botón flotante de WhatsApp</li>
-          <li><i class="fas fa-check"></i> Google Maps embebido</li>
-          <li><i class="fas fa-check"></i> Sección de precios y paquetes</li>
-          <li><i class="fas fa-check"></i> Testimonios de clientes</li>
-          <li><i class="fas fa-check"></i> Formulario de citas WhatsApp</li>
-          <li><i class="fas fa-check"></i> Animaciones premium al scroll</li>
-          <li><i class="fas fa-check"></i> SEO Básico + OG tags</li>
-          <li><i class="fas fa-check"></i> SEO bilingüe español / inglés</li>
-          <li><i class="fas fa-check"></i> Hosting y dominio .com incluido 1er año</li>
-          <li class="muted"><i class="fas fa-times"></i> Blog / Noticias</li>
-          <li class="muted"><i class="fas fa-times"></i> Modo oscuro</li>
-          <li class="muted"><i class="fas fa-times"></i> Schema markup</li>
-          <li class="muted"><i class="fas fa-times"></i> Google Analytics</li>
-        </ul>
-        <button class="plan-btn" onclick="window.open('https://wa.me/526566094895?text=Hola!%20Me%20interesa%20el%20Plan%20Profesional%20de%20%2412%2C000%20MXN','_blank')">Cotizar Plan Profesional</button>
-      </div>
-      <!-- PREMIUM -->
-      <div class="plan-card plan-premium reveal">
-        <div class="plan-icon"><i class="fas fa-star"></i></div>
-        <div class="plan-name">Premium</div>
-        <div class="plan-desc">Ideal para empresas que requieren solución completa y binacional</div>
-        <div class="plan-price"><span class="plan-currency">$</span>24,000 <small style="font-size:1rem;color:var(--gray)">MXN</small></div>
-        <div class="plan-maintenance">Mantenimiento: <strong style="color:var(--gold)">$1,000/mes</strong> · Soporte prioritario</div>
-        <ul class="plan-features">
-          <li><i class="fas fa-check"></i> Multipágina SPA completo</li>
-          <li><i class="fas fa-check"></i> Portafolio completo</li>
-          <li><i class="fas fa-check"></i> WhatsApp flotante</li>
-          <li><i class="fas fa-check"></i> Google Maps embebido</li>
-          <li><i class="fas fa-check"></i> Sección de precios y paquetes</li>
-          <li><i class="fas fa-check"></i> Testimonios de clientes</li>
-          <li><i class="fas fa-check"></i> Blog / Sección de noticias</li>
-          <li><i class="fas fa-check"></i> Formulario de citas</li>
-          <li><i class="fas fa-check"></i> Animaciones scroll</li>
-          <li><i class="fas fa-check"></i> Modo oscuro / claro</li>
-          <li><i class="fas fa-check"></i> SEO Técnico avanzado</li>
-          <li><i class="fas fa-check"></i> SEO bilingüe español / inglés</li>
-          <li><i class="fas fa-check"></i> Schema markup</li>
-          <li><i class="fas fa-check"></i> Google Analytics 4</li>
-          <li><i class="fas fa-check"></i> Hosting y dominio .com o .com.mx incluido 1er año</li>
-          <li><i class="fas fa-check"></i> 🤖 Chatbot incluido</li>
-        </ul>
-        <button class="plan-btn" onclick="window.open('https://wa.me/526566094895?text=Hola!%20Me%20interesa%20el%20Plan%20Premium%20de%20%2424%2C000%20MXN','_blank')">Cotizar Plan Premium</button>
-      </div>
-    </div>
-    <!-- CHATBOT ADDON -->
-    <div class="chatbot-addon reveal">
-      <div class="addon-icon">🤖</div>
-      <div class="addon-info">
-        <h3>Chatbot — Add-On</h3>
-        <p>Agrega un chatbot de atención automatizada a tu sitio. Responde preguntas frecuentes y dirige visitantes a WhatsApp las 24 horas.</p>
-      </div>
-      <div class="addon-price">
-        <span>+$1,800</span>
-        <small>MXN · Pago único</small>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div style="height:1px;background:linear-gradient(90deg,transparent,rgba(255,104,48,0.18),transparent);"></div>
-
 <!-- PROCESO -->
 <section id="proceso">
   <div class="container">
     <div class="text-center reveal">
-      <span class="section-tag">¿Cómo trabajamos?</span>
+      <span class="section-tag">¿Cómo trabajo?</span>
       <h2 class="section-title">Proceso Simple</h2>
-      <p class="section-sub">De la idea a tu sitio web en línea en 5 pasos.</p>
+      <p class="section-sub">De tu idea a tu sitio en línea en 5 pasos — directo conmigo.</p>
     </div>
     <div class="proceso-grid">
       <div class="proceso-line"></div>
       <div class="proceso-item reveal">
         <div class="proceso-num">1</div>
-        <h4>Recopilamos tu info</h4>
+        <h4>Recopilo tu info</h4>
         <p>Logo, fotos, servicios, precios y datos de contacto.</p>
       </div>
       <div class="proceso-item reveal">
         <div class="proceso-num">2</div>
-        <h4>Diseñamos tu sitio</h4>
-        <p>Creamos el sitio adaptado a tu giro y marca.</p>
+        <h4>Diseño tu sitio</h4>
+        <p>Creo el sitio adaptado a tu giro y marca.</p>
       </div>
       <div class="proceso-item reveal">
         <div class="proceso-num">3</div>
         <h4>Revisión contigo</h4>
-        <p>Te mostramos el resultado y aplicamos ajustes.</p>
+        <p>Te muestro el resultado y aplico ajustes.</p>
       </div>
       <div class="proceso-item reveal">
         <div class="proceso-num">4</div>
-        <h4>Publicamos en línea</h4>
-        <p>Subimos el sitio y configuramos tu perfil en Google.</p>
+        <h4>Publico en línea</h4>
+        <p>Subo el sitio y configuro tu perfil en Google.</p>
       </div>
       <div class="proceso-item reveal">
         <div class="proceso-num">5</div>
-        <h4>Soporte continuo</h4>
-        <p>Mantenimiento mensual para mantenerlo actualizado.</p>
+        <h4>Soporte continuo (opcional)</h4>
+        <p>Mantenimiento mensual para mantenerlo actualizado. No es obligatorio.</p>
       </div>
     </div>
     <p style="text-align:center;color:var(--gray);margin-top:3rem;font-size:0.95rem;">
-      ⏱ Tiempo de entrega: <strong style="color:var(--orange)">7 a 15 días hábiles</strong> según el plan
+      ⏱ Tiempo de entrega: <strong style="color:var(--orange)">3 a 7 días hábiles</strong> · En proyectos pequeños puede ser menos
     </p>
   </div>
 </section>
@@ -2436,16 +2320,16 @@ footer::before {
 <section id="contacto">
   <div class="container">
     <div class="text-center reveal">
-      <span class="section-tag">Contáctanos</span>
+      <span class="section-tag">Contáctame</span>
       <h2 class="section-title">Empecemos Hoy</h2>
-      <p class="section-sub">Cuéntanos de tu negocio y te enviamos una propuesta sin costo.</p>
+      <p class="section-sub">Cuéntame de tu negocio y te muestro qué puedo hacer — sin costo, sin compromiso.</p>
     </div>
     <div class="contacto-grid">
       <div class="contacto-info reveal-left">
-        <button class="whatsapp-big" onclick="window.open('https://wa.me/526566094895?text=Hola!%20Quiero%20información%20sobre%20sus%20planes%20de%20diseño%20web','_blank')">
+        <button class="whatsapp-big" onclick="window.open('https://wa.me/526566094895?text=Hola!%20Quiero%20información%20sobre%20tus%20servicios%20de%20diseño%20web','_blank')">
           <i class="fab fa-whatsapp"></i>
           <div>
-            <div>Escríbenos por WhatsApp</div>
+            <div>Escríbeme por WhatsApp</div>
             <small style="font-weight:400;opacity:0.85">+52 (656) 609-4895 · Respuesta en minutos</small>
           </div>
         </button>
@@ -2475,15 +2359,6 @@ footer::before {
           <input type="tel" id="f-whatsapp" placeholder="+52 (656) 000-0000">
         </div>
         <div class="form-group">
-          <label>Plan de interés</label>
-          <select id="f-plan">
-            <option value="">Selecciona un plan</option>
-            <option value="Esencial ($6,000 MXN)">Plan Esencial — $6,000 MXN</option>
-            <option value="Profesional ($12,000 MXN)">Plan Profesional — $12,000 MXN</option>
-            <option value="Premium ($24,000 MXN)">Plan Premium — $24,000 MXN (incluye Chatbot)</option>
-          </select>
-        </div>
-        <div class="form-group">
           <label>Mensaje (opcional)</label>
           <textarea id="f-mensaje" placeholder="Cuéntanos brevemente de tu negocio..."></textarea>
         </div>
@@ -2501,20 +2376,12 @@ footer::before {
     <div class="footer-grid">
       <div class="footer-brand">
         <img src="Frontera_Web_Logo.png" alt="Frontera Web" id="footer-logo-img">
-        <p>Estudio de diseño web en Ciudad Juárez. Proyectos a la medida para negocios locales y operaciones binacionales Juárez–El Paso.</p>
+        <p>Freelancer de diseño web en Ciudad Juárez. Sitios a la medida, entrega en días y pagas solo si te gusta el resultado.</p>
         <div class="footer-social">
           <a href="https://www.facebook.com/FronteraWeb" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
           <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
           <a href="https://wa.me/526566094895" class="social-link" target="_blank"><i class="fab fa-whatsapp"></i></a>
         </div>
-      </div>
-      <div class="footer-col">
-        <h4>Planes</h4>
-        <ul>
-          <li><a href="#planes">Plan Esencial</a></li>
-          <li><a href="#planes">Plan Profesional</a></li>
-          <li><a href="#planes">Plan Premium</a></li>
-        </ul>
       </div>
       <div class="footer-col">
         <h4>Servicios</h4>
@@ -2526,7 +2393,7 @@ footer::before {
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Empresa</h4>
+        <h4>Menú</h4>
         <ul>
           <li><a href="#nosotros">Nosotros</a></li>
           <li><a href="#proceso">Proceso</a></li>
@@ -2745,7 +2612,6 @@ function toggleMenu(){
 function sendWhatsApp(){
   var nombre = document.getElementById('f-nombre').value.trim();
   var wa = document.getElementById('f-whatsapp').value.trim();
-  var plan = document.getElementById('f-plan').value;
   var msg = document.getElementById('f-mensaje').value.trim();
   if(!nombre){ alert('Por favor ingresa el nombre de tu negocio'); return; }
   if(!wa){ alert('Por favor ingresa tu número de WhatsApp'); return; }
@@ -2753,7 +2619,6 @@ function sendWhatsApp(){
   var text = '¡Hola Frontera Web! 👋\n\n';
   text += '📌 Negocio: ' + nombre + '\n';
   text += '📱 Mi WhatsApp: ' + wa + '\n';
-  text += '💼 Plan de interés: ' + plan + '\n';
   if(msg) text += '💬 Mensaje: ' + msg + '\n';
   text += '\nQuiero cotizar mi sitio web 🚀';
   window.open('https://wa.me/526566094895?text=' + encodeURIComponent(text), '_blank');
@@ -2825,12 +2690,11 @@ function hideTying(){
 
 function startChat(){
   showTyping(200);
-  addMsg('¡Hola! 👋 Soy el asistente virtual de <strong>Frontera Web</strong>.<br>¿En qué puedo ayudarte hoy?', 'bot', 1000);
+  addMsg('¡Hola! 👋 Soy el asistente de <strong>Frontera Web</strong>.<br>¿En qué te puedo ayudar?', 'bot', 1000);
   addOptions([
-    {id:'planes', label:'💼 Ver planes y precios'},
     {id:'proceso', label:'⚙️ ¿Cómo funciona el proceso?'},
     {id:'queNecesito', label:'📋 ¿Qué necesitan de mí?'},
-    {id:'contactar', label:'💬 Quiero hablar con alguien'},
+    {id:'contactar', label:'💬 Quiero hablar con el desarrollador'},
   ], 1200);
   chatState = 'menu';
 }
@@ -2839,48 +2703,6 @@ function handleOption(id){
   // Remove option buttons
   document.querySelectorAll('.chat-opt-btn').forEach(function(b){ b.disabled=true; b.style.opacity='0.5'; });
   switch(id){
-    case 'planes':
-      addMsg('💼 Ver planes y precios', 'user');
-      showTyping(400);
-      addMsg('Tenemos <strong>3 planes</strong> para todo tipo de negocio:<br><br>🚀 <strong>Esencial</strong> — $3,000 MXN<br>Ideal para barberías, estéticas, talleres<br><br>📈 <strong>Profesional</strong> — $6,000 MXN<br>Dentistas, gimnasios, spas, salones<br><br>⭐ <strong>Premium</strong> — $12,000 MXN<br>Abogados, inmobiliarias, fotógrafos · Incluye Chatbot IA', 'bot', 1000);
-      addMsg('Todos incluyen WhatsApp flotante, Google Maps, diseño responsive y SEO básico ✅', 'bot', 2200);
-      addOptions([
-        {id:'planEsencial', label:'🚀 Detalles Plan Esencial'},
-        {id:'planPro', label:'📈 Detalles Plan Profesional'},
-        {id:'planPremium', label:'⭐ Detalles Plan Premium'},
-        {id:'menu', label:'↩ Volver al menú'},
-      ], 2500);
-      break;
-    case 'planEsencial':
-      addMsg('🚀 Detalles Plan Esencial', 'user');
-      showTyping(400);
-      addMsg('<strong>Plan Esencial — $3,000 MXN</strong><br><br>✅ 1 página con scroll completo<br>✅ Galería de 6 fotos<br>✅ Botón de WhatsApp flotante<br>✅ Google Maps embebido<br>✅ SEO básico<br>✅ Hosting/dominio genérico gratis<br><br>🔧 Mantenimiento: $350/mes (2 cambios)', 'bot', 1000);
-      addOptions([
-        {id:'cotizarEsencial', label:'💬 Quiero cotizar este plan'},
-        {id:'planes', label:'↩ Ver todos los planes'},
-        {id:'menu', label:'↩ Menú principal'},
-      ], 2000);
-      break;
-    case 'planPro':
-      addMsg('📈 Detalles Plan Profesional', 'user');
-      showTyping(400);
-      addMsg('<strong>Plan Profesional — $6,000 MXN</strong><br><br>✅ 1 página bien estructurada<br>✅ Galería de hasta 15 fotos<br>✅ Sección de precios y paquetes<br>✅ Formulario de contacto WhatsApp<br>✅ Sección de testimonios<br>✅ Dominio genérico gratis incluido<br>✅ Animaciones premium al scroll<br>✅ SEO Básico + OG tags<br><br>🔧 Mantenimiento: $500/mes (4 cambios)', 'bot', 1000);
-      addOptions([
-        {id:'cotizarPro', label:'💬 Quiero cotizar este plan'},
-        {id:'planes', label:'↩ Ver todos los planes'},
-        {id:'menu', label:'↩ Menú principal'},
-      ], 2200);
-      break;
-    case 'planPremium':
-      addMsg('⭐ Detalles Plan Premium', 'user');
-      showTyping(400);
-      addMsg('<strong>Plan Premium — $12,000 MXN</strong><br><br>✅ Sitio multipágina (SPA)<br>✅ Blog/Noticias<br>✅ Portafolio o catálogo completo<br>✅ Formulario de citas multi-paso<br>✅ Modo oscuro/claro<br>✅ Google Analytics 4<br>✅ Schema markup SEO técnico<br>✅ Dominio .com/.com.mx 1er año<br>✅ 🤖 Chatbot con IA incluido<br><br>🔧 Mantenimiento: $800/mes (6 cambios) · Soporte VIP', 'bot', 1000);
-      addOptions([
-        {id:'cotizarPremium', label:'💬 Quiero cotizar este plan'},
-        {id:'planes', label:'↩ Ver todos los planes'},
-        {id:'menu', label:'↩ Menú principal'},
-      ], 2300);
-      break;
     case 'proceso':
       addMsg('⚙️ ¿Cómo funciona el proceso?', 'user');
       showTyping(400);
@@ -2915,7 +2737,7 @@ function handleOption(id){
       var planText = planTexts[id] || 'información';
       addMsg('💬 Quiero contactar con alguien', 'user');
       showTyping(400);
-      addMsg('¡Perfecto! 🎉 Te conectamos directamente con nuestro equipo por <strong>WhatsApp</strong>.', 'bot', 1000);
+      addMsg('¡Perfecto! 🎉 Te conecto directo con el desarrollador por <strong>WhatsApp</strong>.', 'bot', 1000);
       addMsg('Toca el botón para iniciar la conversación 👇', 'bot', 1800);
       setTimeout(function(){
         hideTying();
@@ -2934,10 +2756,9 @@ function handleOption(id){
       showTyping(300);
       addMsg('¿En qué más puedo ayudarte? 😊', 'bot', 800);
       addOptions([
-        {id:'planes', label:'💼 Ver planes y precios'},
         {id:'proceso', label:'⚙️ ¿Cómo funciona el proceso?'},
         {id:'queNecesito', label:'📋 ¿Qué necesitan de mí?'},
-        {id:'contactar', label:'💬 Quiero hablar con alguien'},
+        {id:'contactar', label:'💬 Quiero hablar con el desarrollador'},
       ], 1000);
       break;
   }
@@ -2955,8 +2776,8 @@ function sendChat(){
   var resp = '';
   var opts = null;
   if(lower.match(/precio|costo|cuánto|cuanto|plan|mxn/)){
-    resp = '💰 Nuestros precios son:<br>🚀 <strong>Esencial:</strong> $3,000 MXN<br>📈 <strong>Profesional:</strong> $6,000 MXN<br>⭐ <strong>Premium:</strong> $12,000 MXN';
-    opts = [{id:'planes', label:'Ver detalles de cada plan'},{id:'contactar', label:'Quiero cotizar'}];
+    resp = '💰 Cada proyecto es diferente, por eso no manejo precios fijos. Cuéntame qué necesitas y te doy un precio justo.';
+    opts = [{id:'contactar', label:'💬 Hablar con el desarrollador'}];
   } else if(lower.match(/tiempo|cuánto tarda|días|rapido/)){
     resp = '⏱ El tiempo de entrega varía según el plan:<br>🚀 Esencial: <strong>3-5 días hábiles</strong><br>📈 Profesional: <strong>5-7 días hábiles</strong><br>⭐ Premium: <strong>7-10 días hábiles</strong>';
     opts = [{id:'menu', label:'Menú principal'},{id:'contactar', label:'Quiero empezar'}];
